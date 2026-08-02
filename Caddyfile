@@ -1,0 +1,7 @@
+:{$PORT} {
+    reverse_proxy {$SERVICE_URL} {
+        transport http {
+            versions h2c
+        }
+    }
+}
