@@ -1,7 +1,0 @@
-# :50051 {
-#     reverse_proxy localhost:50051 {
-#         transport http {
-#             versions h2c
-#         }
-#     }
-# }
