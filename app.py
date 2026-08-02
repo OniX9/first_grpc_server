@@ -11,7 +11,8 @@ from src.resources.users import Users
 
 
 def serve():
-    port = os.getenv("PORT", "50051")
+    port = "50051"
+    # port = os.getenv("PORT", "50051")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     users_pb2_grpc.add_UsersServicer_to_server(Users(), server)
     # server.add_insecure_port("[::]:" + port)
