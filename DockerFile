@@ -1,25 +1,6 @@
 FROM python:3.14
-
-# Install Caddy dependencies and Caddy itself
-RUN apt-get update && apt-get install -y debian-keyring debian-archive-keyring apt-transport-https curl \
-    && curl -1sLf 'https://cloudsmith.io' | tee /etc/apt/sources.list.d/caddy-stable.list \
-    && curl -1sLf 'https://cloudsmith.io' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg \
-    && apt-get update && apt-get install -y caddy \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-
-# Copy your root Caddyfile to Caddy's default configuration path
-RUN cp Caddyfile /etc/caddy/Caddyfile
-
-# Create a startup script to run both Caddy and your Python script
-RUN echo '#!/bin/sh\n\
-caddy run --config /etc/caddy/Caddyfile &\n\
-python app.py\n\
-' > /app/start.sh && chmod +x /app/start.sh
-
-# Execute the startup script instead of launching Python directly
-CMD ["/app/start.sh"]
+CMD ["python", "app.py"]
