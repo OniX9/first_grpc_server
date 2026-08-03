@@ -1,14 +1,20 @@
+import os
 import jwt
 import datetime
 import grpc
 from functools import wraps
+from dotenv import load_dotenv
 
-SECRET_KEY = "your-secret-key"
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 def generate_token(user_id):
+    if not SECRET_KEY:
+        raise ValueError("SECRET_KEY environment variable is not set")
     payload = {
         "user_id": user_id,
+        "sub": user_id,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=24),
     }
     return jwt.encode(payload, SECRET_KEY, algorithm="HS256")

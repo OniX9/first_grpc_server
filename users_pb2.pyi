@@ -7,16 +7,40 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class User(_message.Message):
-    __slots__ = ("id", "name", "email", "password")
+    __slots__ = ("id", "name", "email")
     ID_FIELD_NUMBER: _ClassVar[int]
     NAME_FIELD_NUMBER: _ClassVar[int]
     EMAIL_FIELD_NUMBER: _ClassVar[int]
-    PASSWORD_FIELD_NUMBER: _ClassVar[int]
     id: str
     name: str
     email: str
+    def __init__(self, id: _Optional[str] = ..., name: _Optional[str] = ..., email: _Optional[str] = ...) -> None: ...
+
+class LoginUserRequest(_message.Message):
+    __slots__ = ("email", "password")
+    EMAIL_FIELD_NUMBER: _ClassVar[int]
+    PASSWORD_FIELD_NUMBER: _ClassVar[int]
+    email: str
     password: str
-    def __init__(self, id: _Optional[str] = ..., name: _Optional[str] = ..., email: _Optional[str] = ..., password: _Optional[str] = ...) -> None: ...
+    def __init__(self, email: _Optional[str] = ..., password: _Optional[str] = ...) -> None: ...
+
+class CreateUserRequest(_message.Message):
+    __slots__ = ("name", "email", "password")
+    NAME_FIELD_NUMBER: _ClassVar[int]
+    EMAIL_FIELD_NUMBER: _ClassVar[int]
+    PASSWORD_FIELD_NUMBER: _ClassVar[int]
+    name: str
+    email: str
+    password: str
+    def __init__(self, name: _Optional[str] = ..., email: _Optional[str] = ..., password: _Optional[str] = ...) -> None: ...
+
+class AuthUserReponse(_message.Message):
+    __slots__ = ("user", "token")
+    USER_FIELD_NUMBER: _ClassVar[int]
+    TOKEN_FIELD_NUMBER: _ClassVar[int]
+    user: User
+    token: str
+    def __init__(self, user: _Optional[_Union[User, _Mapping]] = ..., token: _Optional[str] = ...) -> None: ...
 
 class GetUsersRequest(_message.Message):
     __slots__ = ()
@@ -28,41 +52,21 @@ class GetUsersResponse(_message.Message):
     users: _containers.RepeatedCompositeFieldContainer[User]
     def __init__(self, users: _Optional[_Iterable[_Union[User, _Mapping]]] = ...) -> None: ...
 
-class GetUserByIdRequest(_message.Message):
-    __slots__ = ("id",)
-    ID_FIELD_NUMBER: _ClassVar[int]
-    id: str
-    def __init__(self, id: _Optional[str] = ...) -> None: ...
+class GetUserRequest(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
 
-class GetUserByIdResponse(_message.Message):
+class UpdateUserRequest(_message.Message):
     __slots__ = ("user",)
     USER_FIELD_NUMBER: _ClassVar[int]
     user: User
     def __init__(self, user: _Optional[_Union[User, _Mapping]] = ...) -> None: ...
 
-class CreateUserRequest(_message.Message):
-    __slots__ = ("users",)
-    USERS_FIELD_NUMBER: _ClassVar[int]
-    users: User
-    def __init__(self, users: _Optional[_Union[User, _Mapping]] = ...) -> None: ...
-
-class CreateUserResponse(_message.Message):
-    __slots__ = ("users",)
-    USERS_FIELD_NUMBER: _ClassVar[int]
-    users: User
-    def __init__(self, users: _Optional[_Union[User, _Mapping]] = ...) -> None: ...
-
-class UpdateUserRequest(_message.Message):
-    __slots__ = ("users",)
-    USERS_FIELD_NUMBER: _ClassVar[int]
-    users: User
-    def __init__(self, users: _Optional[_Union[User, _Mapping]] = ...) -> None: ...
-
 class UpdateUserResponse(_message.Message):
-    __slots__ = ("users",)
-    USERS_FIELD_NUMBER: _ClassVar[int]
-    users: User
-    def __init__(self, users: _Optional[_Union[User, _Mapping]] = ...) -> None: ...
+    __slots__ = ("user",)
+    USER_FIELD_NUMBER: _ClassVar[int]
+    user: User
+    def __init__(self, user: _Optional[_Union[User, _Mapping]] = ...) -> None: ...
 
 class DeIeteUserRequest(_message.Message):
     __slots__ = ("id",)

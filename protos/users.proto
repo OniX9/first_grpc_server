@@ -1,16 +1,6 @@
 // Copyright 2015 gRPC authors.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Use CMD below to generate the Python code from this proto file:
+// python -m grpc_tools.protoc -I./protos --python_out=. --pyi_out=. --grpc_python_out=. ./protos/users.proto
 
 syntax = "proto3";
 
@@ -23,10 +13,10 @@ package users;
 
 // The greeting service definition.
 service Users {
-  // Sends a greeting
+  rpc LoginUser(LoginUserRequest) returns (AuthUserReponse) {}
+  rpc GetUserById(GetUserRequest) returns (User) {}
   rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
-  rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse) {}
-  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  rpc CreateUser(CreateUserRequest) returns (AuthUserReponse) {}
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
   rpc DeleteUser(DeIeteUserRequest) returns (DeleteUserResponse) {}
 }
@@ -35,9 +25,23 @@ message User {
   string id = 1;
   string name = 2;
   string email = 3;
-  string password = 4;
 }
 
+message LoginUserRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message AuthUserReponse {
+  User user = 1;
+  string token = 2;
+}
 
 message GetUsersRequest {}
 
@@ -45,27 +49,14 @@ message GetUsersResponse {
   repeated User users = 1;
 }
 
-message GetUserByIdRequest {
-  string id = 1;
-}
-message GetUserByIdResponse {
+message GetUserRequest {}
+
+message UpdateUserRequest {
   User user = 1;
 }
 
-message CreateUserRequest {
-  User users = 1;
-}
-
-message CreateUserResponse {
-  User users = 1;
-}
-
-message UpdateUserRequest {
-  User users = 1;
-}
-
 message UpdateUserResponse {
-  User users = 1;
+  User user = 1;
 }
 
 message DeIeteUserRequest {

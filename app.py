@@ -6,16 +6,17 @@ from concurrent import futures
 
 import grpc
 import users_pb2_grpc
+from dotenv import load_dotenv
 
 from src.resources.users import Users
 
 
 def serve():
+    load_dotenv()
     port = "50051"
     # port = os.getenv("PORT", "50051")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     users_pb2_grpc.add_UsersServicer_to_server(Users(), server)
-    # server.add_insecure_port("[::]:" + port)
     server.add_insecure_port(f"0.0.0.0:{port}")
     server.start()
     print("Server started, listening on " + port)
